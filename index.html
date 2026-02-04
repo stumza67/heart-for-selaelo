@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selaelo ❤️ My Valentine</title>
+
+<style>
+:root{
+  --pink:#ff6fb1;
+  --purple:#7b4cff;
+  --soft:#fff0f7;
+}
+*{box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top, var(--soft), #ffd1e8 40%, #e7dbff 80%);
+  color:#3a0b2e;
+  overflow-x:hidden;
+}
+header{text-align:center;padding:40px 16px;}
+header h1{color:var(--pink);font-size:clamp(28px,6vw,48px);}
+header p{max-width:700px;margin:auto;}
+
+.card{
+  max-width:900px;
+  margin:20px auto;
+  background:rgba(255,255,255,.85);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 30px 80px rgba(123,76,255,.18);
+}
+
+.question{margin:20px 0;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;}
+button{
+  border:none;
+  padding:12px 22px;
+  border-radius:999px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+.yes{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;}
+.no{background:#ffd6e3;color:#8a2457;}
+.reaction{min-height:100px;text-align:center;font-size:70px;}
+
+.hearts span{
+  position:fixed;
+  bottom:-40px;
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+/* Slideshow */
+.slideshow{
+  display:none;
+  text-align:center;
+}
+.slideshow img{
+  width:100%;
+  max-width:400px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
+}
+
+/* Hidden content */
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Selaelo 💗 Will You Be My Valentine?</h1>
+<p>This isn’t just a question… it’s my heart speaking 🤍</p>
+</header>
+
+<section class="card">
+
+<div class="question">
+<h3>Do you feel loved and safe with me?</h3>
+<div class="actions">
+<button class="yes">Yes 💖</button>
+<button class="no">No 💔</button>
+</div>
+<div class="reaction"></div>
+</div>
+
+<div class="question">
+<h3>Would you let me choose you every day?</h3>
+<div class="actions">
+<button class="yes">Yes 💞</button>
+<button class="no">No 💔</button>
+</div>
+<div class="reaction"></div>
+</div>
+
+<div class="question">
+<h3>Selaelo… will you be my Valentine? 🌹</h3>
+<div class="actions">
+<button class="yes" id="finalYes">YES 🥰</button>
+<button class="no">No 💔</button>
+</div>
+<div class="reaction"></div>
+</div>
+
+</section>
+
+<!-- 💕 SECRET UNLOCK -->
+<section class="card hidden" id="secret">
+<h2 style="text-align:center;color:#ff6fb1">You unlocked my heart 🔐❤️</h2>
+
+<!-- 📸 Slideshow -->
+<div class="slideshow" id="slideshow">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
+</div>
+
+<!-- 🎙️ Voice note -->
+<p style="text-align:center;">
+<button onclick="voice.play()">🎧 Play My Voice</button>
+</p>
+
+<!-- 💌 Poem -->
+<p style="text-align:center;font-size:18px;line-height:1.7">
+Loving you feels like home,<br>
+Not perfect — but real.<br><br>
+Today I choose you.<br>
+Tomorrow I’ll choose you again.<br><br>
+<b>Selaelo, my Valentine — my always ❤️</b>
+</p>
+
+<!-- 📲 WhatsApp -->
+<p style="text-align:center;">
+<a href="https://wa.me/?text=I%20just%20said%20YES%20to%20being%20your%20Valentine%20❤️"
+target="_blank">
+<button>💬 Share on WhatsApp</button>
+</a>
+</p>
+</section>
+
+<footer style="text-align:center;padding:24px;">
+Made with love, courage, and honesty ❤️
+</footer>
+
+<!-- 🎶 Music -->
+<audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_5b1b9c5b9d.mp3" loop></audio>
+<audio id="voice" src="voice-note.mp3"></audio>
+
+<script>
+/* Music */
+const music=document.getElementById('music');
+document.body.addEventListener('click',()=>music.play(),{once:true});
+
+/* Floating hearts */
+setInterval(()=>{
+  const h=document.createElement('span');
+  h.textContent='💖';
+  h.style.left=Math.random()*100+'vw';
+  h.style.animationDuration=(6+Math.random()*6)+'s';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),12000);
+},600);
+
+/* Buttons */
+document.querySelectorAll('.question').forEach(q=>{
+  const yes=q.querySelector('.yes');
+  const no=q.querySelector('.no');
+  const reaction=q.querySelector('.reaction');
+
+  yes.onclick=()=>reaction.textContent='🧸💋';
+  no.onmouseover=()=>{
+    no.style.position='relative';
+    no.style.left=(Math.random()*120-60)+'px';
+  };
+});
+
+/* Final unlock */
+document.getElementById('finalYes').onclick=()=>{
+  document.getElementById('secret').style.display='block';
+  startSlideshow();
+  document.getElementById('secret').scrollIntoView({behavior:'smooth'});
+};
+
+/* Slideshow */
+let slide=0;
+function startSlideshow(){
+  const slides=document.querySelectorAll('#slideshow img');
+  document.getElementById('slideshow').style.display='block';
+  slides.forEach((img,i)=>img.style.display=i===0?'block':'none');
+  setInterval(()=>{
+    slides[slide].style.display='none';
+    slide=(slide+1)%slides.length;
+    slides[slide].style.display='block';
+  },3000);
+}
+</script>
+
+</body>
+</html>
